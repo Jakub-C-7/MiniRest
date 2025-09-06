@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: Customer Details API
+  description: API for saving and retrieving customer details.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /customerDetails/save:
+    post:
+      summary: Save customer details
+      description: Saves one or more customer records from a JSON payload.
+      operationId: saveCustomerDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerDetails'
+            example:
+              - customerRef: CUST001
+                customerName: Alice Johnson
+                addressLine1: 123 High Street
+                addressLine2: Apt 4B
+                town: Cardiff
+                county: South Glamorgan
+                country: UK
+                postcode: CF10 1AA
+              - customerRef: CUST002
+                customerName: Bob Smith
+                addressLine1: 45 Market Road
+                addressLine2: ""
+                town: Newport
+                county: Gwent
+                country: UK
+                postcode: NP20 4HZ
+      responses:
+        '201':
+          description: Customer details saved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDetails'
+        '400':
+          description: Invalid request payload
+  /customerDetails/get:
+    get:
+      summary: Get customer details
+      description: Retrieves a customer record by its reference.
+      operationId: getCustomerDetails
+      parameters:
+        - name: customerRef
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Unique reference for the customer
+          example: CUST001
+      responses:
+        '200':
+          description: Customer details found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDetails'
+        '404':
+          description: Customer not found
+components:
+  schemas:
+    CustomerDetails:
+      type: object
+      properties:
+        customerRef:
+          type: string
+          description: Unique reference for the customer
+          example: CUST001
+        customerName:
+          type: string
+          description: Full name of the customer
+          example: Alice Johnson
+        addressLine1:
+          type: string
+          description: First line of the address
+          example: 123 High Street
+        addressLine2:
+          type: string
+          description: Second line of the address
+          example: Apt 4B
+        town:
+          type: string
+          description: Town or city
+          example: Cardiff
+        county:
+          type: string
+          description: County or region
+          example: South Glamorgan
+        country:
+          type: string
+          description: Country
+          example: UK
+        postcode:
+          type: string
+          description: Postal code
+          example: CF10 1AA
+      required:
+        - customerRef
+        - customerName
+        - addressLine1
+        - addressLine2
+        - town
+        - county
+        - country
+        - postcode

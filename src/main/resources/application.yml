@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: playing_with_apis
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+jpa:
+  database-platform: org.hibernate.dialect.H2Dialect
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
+    path: /swagger-ui.html
