@@ -10,12 +10,16 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class to handle CSV file parsing and processing.
+ * Reads a CSV file, converts its contents into Java Objects, then into JSON.
+ * Sends the data to the API controller's get endpoint for further processing.
+ */
 @Service
 public class CsvParserService {
 
     @Autowired
     private JsonParserService jsonParserService;
-
     @Autowired
     private CustomerDetailsApiController customerDetailsApiController;
 
@@ -37,7 +41,6 @@ public class CsvParserService {
      * @return JSON string representation of the CSV data
      * @throws Exception if file reading or parsing fails
      */
-    //todo: research if library is really needed
     private String parseCsv(String filePath) throws Exception {
         List<CustomerDetails> customers = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {

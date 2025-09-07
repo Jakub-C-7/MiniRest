@@ -1,9 +1,12 @@
 package org.example.entities;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
-import jakarta.persistence.Entity;
 
+/**
+ * Entity class representing customer details.
+ */
 @Entity
 @Getter
 @Setter
@@ -12,7 +15,6 @@ import jakarta.persistence.Entity;
 @ToString
 public class CustomerDetails {
 
-    //todo: are duplicate IDs being allowed
     @Id
     private String customerRef;
     private String customerName;

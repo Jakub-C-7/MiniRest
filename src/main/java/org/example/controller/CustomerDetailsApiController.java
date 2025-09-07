@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller class to handle customer details related API requests.
+ * Provides endpoints to save and retrieve customer details.
+ */
 @RestController
 @RequestMapping("/customerDetails")
 @Slf4j
@@ -22,17 +26,15 @@ public class CustomerDetailsApiController {
     @PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<CustomerDetails>> saveCustomerDetails(@RequestBody String customerDetailsJson) {
 
-        log.info("/save POST with body: " + customerDetailsJson);
+        log.info("/customerDetails/save POST request with body: " + customerDetailsJson);
         List<CustomerDetails> customerDetailsList = customerDetailsApiService.saveCustomerDetails(customerDetailsJson);
         return new ResponseEntity<>(customerDetailsList, HttpStatus.CREATED);
-
     }
 
-    //todo: ensure contents are being returned in JSON format
     @GetMapping(path = "/get", produces = "application/json")
     public ResponseEntity<CustomerDetails> getCustomerDetails(@RequestParam String customerRef) {
 
-        log.info("getCustomerDetails GET with customerRef: " + customerRef);
+        log.info("/customerDetails/get GET request with customerRef: " + customerRef);
         CustomerDetails customerDetails = customerDetailsApiService.getCustomerDetails(customerRef);
         return new ResponseEntity<>(customerDetails, (customerDetails != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
