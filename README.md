@@ -25,7 +25,7 @@ This Java app also parses a CSV file and stores its contents in a database.
 ### Installation & Run
 ```bash
 # Clone the repository
-git clone <github-repo-url>
+git clone https://github.com/Jakub-C-7/MiniRest.git
 cd MiniRest
 
 # Build the project
