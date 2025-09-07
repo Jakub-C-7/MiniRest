@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CustomerDetailsApiControllerTest {
 
-    CsvParserServiceData testServiceData = new CsvParserServiceData();
+    private final CsvParserServiceData testServiceData = new CsvParserServiceData();
 
     @MockitoBean
     private CustomerDetailsApiService customerDetailsApiService;
@@ -43,15 +43,18 @@ class CustomerDetailsApiControllerTest {
     @Test
     @DisplayName("Test POST /customerDetails/save - Created 201")
     public void testPostSaveCustomers() throws JSONException {
+        // Mock service interaction to return the expected list of customers
         Mockito.when(customerDetailsApiService.saveCustomerDetails(testServiceData.getCsvFileExpectedJson()))
                 .thenReturn(testServiceData.getAllCustomerDetails());
 
+        // Perform POST request to the controller endpoint
         Response response = given()
                 .contentType(ContentType.JSON)
                 .body(testServiceData.getCsvFileExpectedJson())
                 .when()
                 .post("/customerDetails/save");
 
+        // Verify response
         assertEquals(201, response.getStatusCode());
         JSONAssert.assertEquals(testServiceData.getCsvFileExpectedJson(), response.getBody().prettyPrint(), true);
     }
@@ -61,18 +64,21 @@ class CustomerDetailsApiControllerTest {
     public void testGetCustomerByRef() {
         String customerRef = "CUST001";
 
+        // Mock service interaction to return a specific customer for the test
         Mockito.when(customerDetailsApiService.getCustomerDetails(eq(customerRef)))
                 .thenReturn(testServiceData.getFirstCustomer());
 
+        // Perform GET request to the controller endpoint
         Response response = given()
                 .contentType(ContentType.JSON)
                 .queryParam("customerRef", customerRef)
                 .when()
                 .get("/customerDetails/get");
 
+        // Verify response
         assertEquals(200, response.getStatusCode());
-        CustomerDetails actual = response.getBody().as(CustomerDetails.class);
-        assertThat(testServiceData.getFirstCustomer()).usingRecursiveComparison().isEqualTo(actual);
+        CustomerDetails responseBody = response.getBody().as(CustomerDetails.class);
+        assertThat(testServiceData.getFirstCustomer()).usingRecursiveComparison().isEqualTo(responseBody);
     }
 
     @Test
@@ -80,15 +86,18 @@ class CustomerDetailsApiControllerTest {
     public void testGetCustomerByRefNotFound() {
         String customerRef = "CUST999999";
 
+        // Mock service interaction to return null for a non-existent customer
         Mockito.when(customerDetailsApiService.getCustomerDetails(eq(customerRef)))
                 .thenReturn(null);
 
+        // Perform GET request to the controller endpoint
         Response response = given()
                 .contentType(ContentType.JSON)
                 .queryParam("customerRef", customerRef)
                 .when()
                 .get("/customerDetails/get");
 
+        // Verify response
         assertEquals(404, response.getStatusCode());
         assertThat(response.getBody().asString()).isEmpty();
     }

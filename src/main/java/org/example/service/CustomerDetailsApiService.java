@@ -42,7 +42,7 @@ public class CustomerDetailsApiService {
         }
 
         for (CustomerDetails customerDetails : customerDetailsList) {
-            log.info("Saving CustomerDetails with ref: " + customerDetails.getCustomerRef());
+            log.info("Saving CustomerDetails with ref: {}", customerDetails.getCustomerRef());
             repository.save(customerDetails);
         }
         return customerDetailsList;

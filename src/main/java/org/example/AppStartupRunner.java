@@ -32,7 +32,7 @@ public class AppStartupRunner implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-        log.info("CommandLineAppStartupRunner run method started with args: " + String.join(", ", args));
+        log.info("CommandLineAppStartupRunner run method started with args: {}", String.join(", ", args));
         csvParserService.processCsv(csvFilePath);
     }
 }
