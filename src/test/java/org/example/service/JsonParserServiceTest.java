@@ -2,17 +2,20 @@ package org.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import org.example.testData.CsvParserServiceData;
 import org.example.entities.CustomerDetails;
+import org.example.testData.CsvParserServiceData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.ActiveProfiles;
+
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @Slf4j
 public class JsonParserServiceTest {

@@ -1,33 +1,29 @@
 package org.example.controller;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.example.entities.CustomerDetails;
 import org.example.service.CustomerDetailsApiService;
 import org.example.testData.CsvParserServiceData;
 import org.json.JSONException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.example.entities.CustomerDetails;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import java.util.Collections;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CustomerDetailsApiControllerTest {
 
@@ -49,7 +45,7 @@ class CustomerDetailsApiControllerTest {
     public void testPostSaveCustomers() throws JSONException {
         Mockito.when(customerDetailsApiService.saveCustomerDetails(testServiceData.getCsvFileExpectedJson()))
                 .thenReturn(testServiceData.getAllCustomerDetails());
-        
+
         Response response = given()
                 .contentType(ContentType.JSON)
                 .body(testServiceData.getCsvFileExpectedJson())
@@ -81,7 +77,7 @@ class CustomerDetailsApiControllerTest {
 
     @Test
     @DisplayName("Test GET /customerDetails/get/{customerRef} - Not Found 404")
-    public void testGetCustomerByRefNotFound(){
+    public void testGetCustomerByRefNotFound() {
         String customerRef = "CUST999999";
 
         Mockito.when(customerDetailsApiService.getCustomerDetails(eq(customerRef)))
