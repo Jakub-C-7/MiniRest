@@ -2,7 +2,8 @@
 
 A Spring Boot REST API for storing and retrieving customer details.  
 This API exposes endpoints to **save** customer records and **fetch** them by their reference ID.
-This Java app also parses a CSV file and stores its contents in a database.
+
+This Java app also has the function to parse a CSV file and store its contents in a database using the **/save** API endpoint.
 
 ---
 
@@ -60,12 +61,11 @@ The project was developed using the Test Driven Development methodology, and uni
 # Run the tests
 mvn test
 ```
+JUnit 5 has been used as the testing framework.
 
 The API has been tested using the RestAssured library. 
 
 Mockito has been used where appropriate to mock dependencies and isolate units of code.
-
-JUnit 5 has been used as the testing framework.
 
 ## CSV Parser
 
@@ -99,7 +99,7 @@ If the request is successful, a 201 CREATED response will be returned along with
 ### /customerDetails/get
 A GET endpoint to retrieve a customer record by its `customerRef` which is passed in as a query parameter.
 
-The service will use the `CustomerDetailsRepository` interface as find the record in the database by its ID `customerRef`.
+The service will use the `CustomerDetailsRepository` interface to find the record in the database by its ID `customerRef`.
 
 If the record doesn't exist, a 404 Not Found response will be returned.
 
