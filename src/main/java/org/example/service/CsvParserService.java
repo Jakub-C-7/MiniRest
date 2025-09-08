@@ -6,7 +6,8 @@ import org.example.entities.CustomerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,24 +27,25 @@ public class CsvParserService {
     /**
      * Process the CSV file: parse it and send the data to the API controller.
      *
-     * @param filePath path to the CSV file
+     * @param csvFileInputStream input stream of the CSV file
      * @throws Exception if file reading or processing fails
      */
-    public void processCsv(String filePath) throws Exception {
-        String json = parseCsv(filePath);
+    public void processCsv(InputStream csvFileInputStream) throws Exception {
+        String json = parseCsv(csvFileInputStream);
         customerDetailsApiController.saveCustomerDetails(json);
     }
 
     /**
      * Parse CSV file and convert to JSON string.
      *
-     * @param filePath path to the CSV file
+     * @param csvFileInputStream input stream of the CSV file
      * @return JSON string representation of the CSV data
      * @throws Exception if file reading or parsing fails
      */
-    private String parseCsv(String filePath) throws Exception {
+    private String parseCsv(InputStream csvFileInputStream) throws Exception {
         List<CustomerDetails> customers = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(csvFileInputStream))) {
             String[] line;
             while ((line = reader.readNext()) != null) {
                 CustomerDetails customer = new CustomerDetails(

@@ -43,6 +43,8 @@ mvn spring-boot:run
 The application runs on port 8080 and will be accessible at `http://localhost:8080`.
 
 ### Running using Docker
+Ensure that your Docker daemon is running, then execute the following commands:
+
 ```bash
 # Navigate into the directory
 cd MiniRest

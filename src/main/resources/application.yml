@@ -13,4 +13,4 @@ springdoc:
     url: /openapi.yaml
     path: /swagger-ui.html
 csv:
-  file-path: src/main/resources/csv-files/data.csv
+  file-path: /csv-files/data.csv

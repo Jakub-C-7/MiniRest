@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.io.InputStream;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -25,20 +27,22 @@ class CsvParserServiceTest {
     @MockitoBean
     public CustomerDetailsApiController controller;
 
-    private final String csvFilePath = "src/test/resources/testData/sampleData.csv";
-    private final String invalidCsvFilePath = "src/test/resources/testData/invalidData.csv";
+    private final String csvFilePath = "/testData/sampleData.csv";
+    private final String invalidCsvFilePath = "/testData/invalidData.csv";
 
     @Test
     @DisplayName("processCsv calls the controller with Json String to save customer details")
     void testProcessCsv() throws Exception {
-        service.processCsv(csvFilePath);
+        InputStream inputStream = getClass().getResourceAsStream(csvFilePath);
+        service.processCsv(inputStream);
         verify(controller, times(1)).saveCustomerDetails(any(String.class));
     }
 
     @Test
     @DisplayName("processCsv calls the controller with Json String to save customer details")
     void testProcessCsvInvalid() {
-        assertThrows(Exception.class, () -> service.processCsv(invalidCsvFilePath));
+        InputStream inputStream = getClass().getResourceAsStream(invalidCsvFilePath);
+        assertThrows(Exception.class, () -> service.processCsv(inputStream));
         verify(controller, times(0)).saveCustomerDetails(any(String.class));
     }
 
