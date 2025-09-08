@@ -26,7 +26,7 @@ public class CustomerDetailsApiController {
     @PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<CustomerDetails>> saveCustomerDetails(@RequestBody String customerDetailsJson) {
 
-        log.info("/customerDetails/save POST request with body: {}", customerDetailsJson);
+        log.info("/customerDetails/save POST request");
         List<CustomerDetails> customerDetailsList = customerDetailsApiService.saveCustomerDetails(customerDetailsJson);
 
         return new ResponseEntity<>(customerDetailsList, HttpStatus.CREATED);
